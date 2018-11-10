@@ -16,18 +16,19 @@ public class HomePage extends Page {
         return new InputText(By.className("BandSearchBox"), this);
     }
 
-    public SelenideAbstractListWidget bandInfo() {
-        return new SelenideAbstractListWidget<BandInfoCategory>(By.className("BandInfo"), this) {
+    public SelenideAbstractListWidget<BandResult> resultList() {
+        return new SelenideAbstractListWidget<BandResult>(By.className("SearchResults"), this) {
 
             @Override
-            protected BandInfoCategory createItem(SelenideElement selenideElement) {
-                return new BandInfoCategory(selenideElement, this);
+            protected BandResult createItem(SelenideElement selenideElement) {
+                return new BandResult(selenideElement, this);
             }
 
             @Override
             public By itemsSelector() {
-                return By.className("BandInfo-Category");
+                return By.className("BandResult");
             }
         };
     }
 }
+

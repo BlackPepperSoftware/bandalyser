@@ -5,12 +5,13 @@ import org.openqa.selenium.By;
 import uk.co.blackpepper.relish.core.Component;
 import uk.co.blackpepper.relish.selenide.SelenideWidget;
 
-public class BandInfoCategory extends SelenideWidget{
-    public BandInfoCategory(SelenideElement peer, Component parent) {
+public class BandResult extends SelenideWidget{
+    public BandResult(SelenideElement peer, Component parent) {
         super(peer, parent);
     }
 
-    public SelenideWidget boringLevel() {
-        return new SelenideWidget(By.className("BandInfo-Category-BoringLevel"), this);
+    public SelenideWidget name() {
+        return new SelenideWidget(By.className("BandResult-name"), this);
     }
+
 }

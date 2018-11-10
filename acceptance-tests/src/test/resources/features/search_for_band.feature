@@ -5,7 +5,4 @@ Feature: Band searching
 
   Scenario: Successful search for band
     When I search for "Queen"
-    Then I see the following information:
-      | Boring Level |
-      | ...          |
-
+    Then the result list should contain 'Queen'

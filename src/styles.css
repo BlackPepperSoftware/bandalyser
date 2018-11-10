@@ -3,5 +3,14 @@
 
 body {
   font-family: 'Poor Story', cursive;
-  font-size: 20pt
+  font-size: 20pt;
+  background-color: black;
+  color: white;
+}
+
+html, body { height: 100%; }
+
+input {
+  font-family: 'Poor Story', cursive;
+  font-size: 20pt;
 }
