@@ -17,9 +17,15 @@ export class SearchBarComponent implements OnInit {
 
   ngOnInit() {
     this.queryField.valueChanges
-      .subscribe(query =>
-        this.bandSearchService.search(query)
-          .subscribe(response => this.results = (response as any).artists.items))
+      .subscribe(query => {
+
+        if (query) {
+          this.bandSearchService.search(query)
+            .subscribe(response => this.results = (response as any).artists.items);
+        } else {
+          this.results = []
+        }
+      })
   }
 
 }
