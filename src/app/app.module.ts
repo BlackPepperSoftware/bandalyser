@@ -12,6 +12,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { BandSearchService } from './bandSearch.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthTokenService } from './auth-token.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [BandSearchService],
+  providers: [AuthTokenService, BandSearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
