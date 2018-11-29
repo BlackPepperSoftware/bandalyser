@@ -8,6 +8,9 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
+const distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
 app.listen(8000, () => {
   console.log('Server started');
 });
