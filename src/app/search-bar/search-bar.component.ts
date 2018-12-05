@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BandSearchService } from '../bandSearch.service';
+import { debounceTime, defaultIfEmpty, distinctUntilChanged, filter, switchMap } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-search-bar',
@@ -13,19 +14,16 @@ export class SearchBarComponent implements OnInit {
 
   queryField: FormControl = new FormControl();
 
-  constructor(private bandSearchService: BandSearchService) { }
+  constructor(private bandSearchService: BandSearchService) {
+  }
 
   ngOnInit() {
     this.queryField.valueChanges
-      .subscribe(query => {
-
-        if (query) {
-          this.bandSearchService.search(query)
-            .subscribe(response => this.results = (response as any).artists.items);
-        } else {
-          this.results = []
-        }
-      })
+      //.pipe(debounceTime(200))
+      .pipe(distinctUntilChanged())
+      .pipe(filter(query => query))
+      .pipe(switchMap((query) => this.bandSearchService.search(query)))
+      .subscribe(response => this.results = (response as any).artists.items)
   }
 
 }
