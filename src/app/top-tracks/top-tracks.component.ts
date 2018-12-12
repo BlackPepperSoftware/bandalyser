@@ -29,8 +29,6 @@ export class TopTracksComponent implements OnInit {
 
   ngOnInit() {
 
-
-
     this.route.params.subscribe(params => {
       this.bandId = params['bandid'];
       this.bandService.getBand(this.bandId).subscribe(result => {
@@ -62,10 +60,7 @@ export class TopTracksComponent implements OnInit {
                 this.valenceDataPoints = this.topTracks.map(track => this.convertToDataPoint(track, track.valence));
                 this.energyDataPoints = this.topTracks.map(track => this.convertToDataPoint(track, track.energy));
 
-                let chart = new CanvasJS.Chart("chartContainer", {
-                  title: {
-                    text: 'Audio analysis of top tracks'
-                  },
+                let chart = new CanvasJS.Chart("topTrackAnalysisChartContainer", {
                   theme: 'dark1',
                   animationDuration: 3000,
                   animationEnabled: true,
@@ -83,11 +78,6 @@ export class TopTracksComponent implements OnInit {
                     name: "danceability",
                     showInLegend: true,
                     dataPoints: this.danceabilityDataPoints
-                  },{
-                    type: "line",
-                    name: "speechiness",
-                    showInLegend: true,
-                    dataPoints: this.speechinessDataPoints
                   },
                     {
                       type: "line",

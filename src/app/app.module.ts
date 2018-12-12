@@ -14,13 +14,16 @@ import { HomeComponent } from './home/home.component';
 import { TopTracksComponent } from './top-tracks/top-tracks.component';
 import { BandService } from './band-service.service';
 import { AudioFeaturesService } from './audio-features.service';
+import { AlbumAnalysisComponent } from './album-analysis/album-analysis.component';
+import { AlbumService } from './album.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchBarComponent,
     HomeComponent,
-    TopTracksComponent
+    TopTracksComponent,
+    AlbumAnalysisComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,7 @@ import { AudioFeaturesService } from './audio-features.service';
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [AuthTokenService, AudioFeaturesService, BandSearchService, BandService],
+  providers: [AuthTokenService, AlbumService, AudioFeaturesService, BandSearchService, BandService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
