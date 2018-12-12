@@ -1,9 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
+  <h1 routerLink="/">
     {{title}}
   </h1>
-  <p>Interested in knowing how a band's sound has changed over time? Type in an artist below to see some stats! </p>
-  <app-search-bar></app-search-bar>
+
+  <main [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </main>
 </div>
 

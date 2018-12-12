@@ -9,11 +9,16 @@ import { BandSearchService } from './bandSearch.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthTokenService } from './auth-token.service';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './home/home.component';
+import { TopTracksComponent } from './top-tracks/top-tracks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    HomeComponent,
+    TopTracksComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,8 @@ import { AuthTokenService } from './auth-token.service';
     MatAutocompleteModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [AuthTokenService, BandSearchService],
   bootstrap: [AppComponent]
