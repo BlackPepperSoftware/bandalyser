@@ -32,7 +32,7 @@ export class AlbumAnalysisComponent implements OnInit {
       .subscribe((response: any) => {
         this.albums = response.items;
         this.albums
-          .filter(album => !album.name.toLowerCase().includes('live'))
+          .filter(album => !album.name.includes('Deluxe'))
           .forEach(album => {
           this.albumService.getTracks(album.id).subscribe((response: any )=> {
 
@@ -95,6 +95,9 @@ export class AlbumAnalysisComponent implements OnInit {
                   animationEnabled: true,
                   axisX: {
                     valueFormatString: "MMM YYYY"
+                  },
+                  axisY: {
+                    gridThickness: 0
                   },
                   legend: {
                     cursor: "pointer",

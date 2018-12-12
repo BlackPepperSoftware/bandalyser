@@ -65,7 +65,11 @@ export class TopTracksComponent implements OnInit {
                   animationDuration: 3000,
                   animationEnabled: true,
                   axisX: {
-                    valueFormatString: "MMM YYYY"
+                    valueFormatString: "MMM YYYY",
+                    gridThickness: 0,
+                  },
+                  axisY: {
+                    gridThickness: 0,
                   },
                   legend: {
                     cursor: "pointer",
