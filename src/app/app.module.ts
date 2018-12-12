@@ -12,6 +12,8 @@ import { AuthTokenService } from './auth-token.service';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { TopTracksComponent } from './top-tracks/top-tracks.component';
+import { BandService } from './band-service.service';
+import { AudioFeaturesService } from './audio-features.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,7 @@ import { TopTracksComponent } from './top-tracks/top-tracks.component';
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [AuthTokenService, BandSearchService],
+  providers: [AuthTokenService, AudioFeaturesService, BandSearchService, BandService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

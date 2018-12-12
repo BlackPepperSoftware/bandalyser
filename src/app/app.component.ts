@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.state;
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['state'];
   }
 
 

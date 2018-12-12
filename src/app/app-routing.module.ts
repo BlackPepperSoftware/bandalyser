@@ -6,7 +6,7 @@ import { TopTracksComponent } from './top-tracks/top-tracks.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, data : {state: 'home'}},
-  {path: 'toptracks', component: TopTracksComponent, data : {state: 'toptracks'}}
+  {path: 'toptracks/:bandid', component: TopTracksComponent, data : {state: 'toptracks'}}
 ];
 
 @NgModule({
