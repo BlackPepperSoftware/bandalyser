@@ -29,14 +29,15 @@ export class AlbumAnalysisComponent implements OnInit {
   ngOnInit() {
 
     this.bandService.getAlbums(this.bandId)
-      .subscribe(response => {
+      .subscribe((response: any) => {
         this.albums = response.items;
         this.albums
+          .filter(album => !album.name.toLowerCase().includes('live'))
           .forEach(album => {
-          this.albumService.getTracks(album.id).subscribe(response => {
+          this.albumService.getTracks(album.id).subscribe((response: any )=> {
 
             this.audioFeatures.getAudioFeaturesForTracks(response.items.map(track => track.id))
-              .subscribe(response => {
+              .subscribe((response: any )=> {
 
                 const energyForAllTracks = response.audio_features.map(audioFeatures => audioFeatures.energy);
                 const energyAverage = energyForAllTracks.reduce((a,b) => a + b, 0) / energyForAllTracks.length;

@@ -31,7 +31,7 @@ export class TopTracksComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.bandId = params['bandid'];
-      this.bandService.getBand(this.bandId).subscribe(result => {
+      this.bandService.getBand(this.bandId).subscribe((result: any) => {
         this.bandName = result['name'];
         this.bandImageLink = result.images['0'].url;
 
@@ -73,7 +73,14 @@ export class TopTracksComponent implements OnInit {
                     horizontalAlign: "center",
                     dockInsidePlotArea: true,
                   },
-                  data: [{
+                  data: [
+                    {
+                      type: "line",
+                      name: "energy",
+                      showInLegend: true,
+                      dataPoints: this.energyDataPoints
+                    },
+                    {
                     type: "line",
                     name: "danceability",
                     showInLegend: true,
@@ -85,13 +92,6 @@ export class TopTracksComponent implements OnInit {
                       showInLegend: true,
                       dataPoints: this.valenceDataPoints
                     },
-                    {
-                      type: "line",
-                      name: "energy",
-                      showInLegend: true,
-                      dataPoints: this.energyDataPoints
-                    }
-
                   ]
                 });
 
