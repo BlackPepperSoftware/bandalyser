@@ -11,7 +11,7 @@ app.use(cors({
 const distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('Server started');
 });
 
