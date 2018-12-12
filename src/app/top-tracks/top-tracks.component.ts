@@ -19,6 +19,7 @@ export class TopTracksComponent implements OnInit {
   danceabilityDataPoints: any[] =[];
   speechinessDataPoints: any[] =[];
   valenceDataPoints: any[] =[];
+  energyDataPoints: any[] = [];
 
   constructor(private bandService: BandService,
               private route: ActivatedRoute,
@@ -56,11 +57,15 @@ export class TopTracksComponent implements OnInit {
                     return 0;
                   });
 
-                this.danceabilityDataPoints = this.topTracks.map(track => {return {x: track.date, y : track.danceability, name: track.name, toolTipContent: "{name}: {x}", cursor: "pointer"}})
-                this.speechinessDataPoints = this.topTracks.map(track => {return {x: track.date, y : track.speechiness, name: track.name, toolTipContent: "{name}: {x}", cursor: "pointer"}})
-                this.valenceDataPoints = this.topTracks.map(track => {return {x: track.date, y : track.valence, name: track.name, toolTipContent: "{name}: {x}", cursor: "pointer"}})
+                this.danceabilityDataPoints = this.topTracks.map(track => this.convertToDataPoint(track, track.danceability));
+                this.speechinessDataPoints = this.topTracks.map(track => this.convertToDataPoint(track, track.speechiness));
+                this.valenceDataPoints = this.topTracks.map(track => this.convertToDataPoint(track, track.valence));
+                this.energyDataPoints = this.topTracks.map(track => this.convertToDataPoint(track, track.energy));
 
                 let chart = new CanvasJS.Chart("chartContainer", {
+                  title: {
+                    text: 'Audio analysis of top tracks'
+                  },
                   theme: 'dark1',
                   animationDuration: 3000,
                   animationEnabled: true,
@@ -89,7 +94,14 @@ export class TopTracksComponent implements OnInit {
                       name: "valence",
                       showInLegend: true,
                       dataPoints: this.valenceDataPoints
+                    },
+                    {
+                      type: "line",
+                      name: "energy",
+                      showInLegend: true,
+                      dataPoints: this.energyDataPoints
                     }
+
                   ]
                 });
 
@@ -102,4 +114,20 @@ export class TopTracksComponent implements OnInit {
 
   }
 
+  onDataPointClick(e) {
+    window.open(e.dataPoint.urlToGo, "_blank");
+
+  }
+
+  convertToDataPoint(track, audioFeature) {
+    return {
+      x: track.date,
+      y : audioFeature,
+      name: track.name,
+      toolTipContent: "{name}: {x}", cursor: "pointer",
+      urlToGo: track.external_urls.spotify,
+      click: this.onDataPointClick
+    }
+
+  }
 }
