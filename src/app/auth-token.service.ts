@@ -10,7 +10,9 @@ export class AuthTokenService {
   }
 
   getAuthToken() {
-    this.httpClient.get('http://localhost:8000/api/authtoken')
+    // const url = 'http://localhost:8000/api/authtoken';
+    const url = '/api/authtoken';
+    this.httpClient.get(url)
       .toPromise().then((body) => {
       const authtoken = body['authtoken'];
       console.log('our auth token', authtoken);
