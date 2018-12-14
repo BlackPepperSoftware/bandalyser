@@ -20,6 +20,7 @@ export class AlbumAnalysisComponent implements OnInit {
   energyDatapoints: any[] = [];
   danceabilityDatapoints: any[] = [];
   valenceDatapoints: any[] = [];
+  livenessDatapoints: any[] = [];
 
   constructor(
     private bandService: BandService,
@@ -41,90 +42,25 @@ export class AlbumAnalysisComponent implements OnInit {
 
                 const energyForAllTracks = response.audio_features.map(audioFeatures => audioFeatures.energy);
                 const energyAverage = energyForAllTracks.reduce((a,b) => a + b, 0) / energyForAllTracks.length;
-                this.energyDatapoints.push({
-                  y: energyAverage,
-                  x:  moment(album.release_date, 'YYYY-MM-DD').toDate(),
-                  name: album.name,
-                  toolTipContent: "{name}: {x}",
-                  cursor: "pointer",
-                  urlToGo: album.external_urls.spotify,
-                  click: this.onDataPointClick
-                });
+                this.energyDatapoints.push(this.createDataPoint(album, energyAverage));
+                this.energyDatapoints = this.energyDatapoints.sort(this.sortByDate());
 
                 const danceabilityForAllTracks = response.audio_features.map(audioFeatures => audioFeatures.danceability);
                 const danceabilityAverage = danceabilityForAllTracks.reduce((a,b) => a + b, 0) / danceabilityForAllTracks.length;
-                this.danceabilityDatapoints.push({
-                  y: danceabilityAverage,
-                  x:  moment(album.release_date, 'YYYY-MM-DD').toDate(),
-                  name: album.name,
-                  toolTipContent: "{name}: {x}",
-                  cursor: "pointer",
-                  urlToGo: album.external_urls.spotify,
-                  click: this.onDataPointClick
-                });
+                this.danceabilityDatapoints.push(this.createDataPoint(album, danceabilityAverage));
+                this.danceabilityDatapoints = this.danceabilityDatapoints.sort(this.sortByDate());
 
                 const valenceForAllTracks = response.audio_features.map(audioFeatures => audioFeatures.valence);
                 const valenceAverage = valenceForAllTracks.reduce((a,b) => a + b, 0) / valenceForAllTracks.length;
-                this.valenceDatapoints.push({
-                  y: valenceAverage,
-                  x:  moment(album.release_date, 'YYYY-MM-DD').toDate(),
-                  name: album.name,
-                  toolTipContent: "{name}: {x}",
-                  cursor: "pointer",
-                  urlToGo: album.external_urls.spotify,
-                  click: this.onDataPointClick
-                });
+                this.valenceDatapoints.push(this.createDataPoint(album, valenceAverage));
+                this.valenceDatapoints = this.valenceDatapoints.sort(this.sortByDate());
 
-                let byDate = (last, next) => {
-                  if (last.x < next.x) {
-                    return -1;
-                  }
-                  if (last.x > next.x) {
-                    return 1;
-                  }
-                  return 0;
-                };
+                const livenessForAllTracks = response.audio_features.map(audioFeatures => audioFeatures.liveness);
+                const livenessAverage = livenessForAllTracks.reduce((a,b) => a + b, 0) / livenessForAllTracks.length;
+                this.livenessDatapoints.push(this.createDataPoint(album, livenessAverage));
+                this.livenessDatapoints = this.livenessDatapoints.sort(this.sortByDate());
 
-                this.energyDatapoints = this.energyDatapoints.sort(byDate);
-                this.danceabilityDatapoints = this.danceabilityDatapoints.sort(byDate);
-                this.valenceDatapoints = this.valenceDatapoints.sort(byDate);
-
-                let chart = new CanvasJS.Chart("albumAnalysisChartContainer", {
-                  theme: 'dark1',
-                  animationDuration: 3000,
-                  animationEnabled: true,
-                  axisX: {
-                    valueFormatString: "MMM YYYY"
-                  },
-                  axisY: {
-                    gridThickness: 0
-                  },
-                  legend: {
-                    cursor: "pointer",
-                    verticalAlign: "top",
-                    horizontalAlign: "center",
-                    dockInsidePlotArea: true,
-                  },
-                  data: [{
-                    type: "line",
-                    name: "energy",
-                    showInLegend: true,
-                    dataPoints:this.energyDatapoints
-                  }, {
-                    type: "line",
-                    name: "danceability",
-                    showInLegend: true,
-                    dataPoints:this.danceabilityDatapoints
-                  },{
-                    type: "line",
-                    name: "valence",
-                    showInLegend: true,
-                    dataPoints:this.valenceDatapoints
-                  }
-                  ]
-                });
-
-                chart.render();
+                this.drawGraph();
               });
             })
           })
@@ -134,8 +70,78 @@ export class AlbumAnalysisComponent implements OnInit {
 
   }
 
+  createDataPoint(album: any, metric: number) {
+    return {
+      y: metric,
+      x:  moment(album.release_date, 'YYYY-MM-DD').toDate(),
+      name: album.name,
+      toolTipContent: "{name}: {x}",
+      cursor: "pointer",
+      urlToGo: album.external_urls.spotify,
+      click: this.onDataPointClick
+    }
+  }
+
   onDataPointClick(e) {
     window.open(e.dataPoint.urlToGo, "_blank");
+  }
+
+  sortByDate() {
+    return  (last, next) => {
+      if (last.x < next.x) {
+        return -1;
+      }
+      if (last.x > next.x) {
+        return 1;
+      }
+      return 0;
+    };
+  }
+
+  drawGraph() {
+    console.log("drawing graph");
+    let chart = new CanvasJS.Chart("albumAnalysisChartContainer", {
+      theme: 'dark1',
+      animationDuration: 3000,
+      animationEnabled: true,
+      axisX: {
+        valueFormatString: "MMM YYYY"
+      },
+      axisY: {
+        gridThickness: 0
+      },
+      legend: {
+        cursor: "pointer",
+        verticalAlign: "top",
+        horizontalAlign: "center",
+        dockInsidePlotArea: true,
+      },
+      data: [{
+        type: "line",
+        name: "energy",
+        showInLegend: true,
+        dataPoints:this.energyDatapoints
+      }, {
+        type: "line",
+        name: "danceability",
+        showInLegend: true,
+        dataPoints:this.danceabilityDatapoints
+      },{
+        type: "line",
+        name: "valence",
+        showInLegend: true,
+        dataPoints:this.valenceDatapoints
+      },
+        {
+          type: "line",
+          name: "liveness",
+          showInLegend: true,
+          dataPoints:this.livenessDatapoints
+        }
+      ]
+    });
+
+    chart.render();
   }
 
 }
